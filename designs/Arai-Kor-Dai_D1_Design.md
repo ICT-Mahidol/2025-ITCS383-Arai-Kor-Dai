@@ -9,6 +9,7 @@
 
 
 ## Container Diagram
+### Bank System
 ![Bank System](https://github.com/ICT-Mahidol/2025-ITCS383-Arai-Kor-Dai/blob/4c0842dfd54394c2be409812e9bdc35ee7670908/designs/Bank%20system%20App%20Diagram%20(Current).svg)
 
 ![Post Office Management]()
@@ -111,6 +112,7 @@ P6 -->|Read Payment Data| D3
 
 P6 -->|Reports / Statistics| Admin
 ```
+
 
 
 
