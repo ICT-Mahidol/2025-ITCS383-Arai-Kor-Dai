@@ -1,14 +1,16 @@
-# C4 DIAGRAM
+## C4 DIAGRAM
 
-# Context Diagram 
+### Context Diagram
+![Context Diagram](context-diagram.png)
 
-[![Context Diagram](designs/Use_Case_Diagram_Arai-Kor-Dai.png)]
+### Use Case Diagram
+![Use Case Diagram](Use_Case_Diagram_Arai-Kor-Dai.png)
 
-# Use Case Diagram
-designs/use-case-diagram.png
+### Class Diagram
+![Class Diagram](Class_Diagram_Arai-Kor-Dai.png)
 
-# Class Diagram
-designs/class-diagram.png
+### DFD Diagram (Level 0)
+![DFD Diagram](designs/dfd-level0.png)
 
 # DFD Diagram (Level 0)
 ```mermaid
@@ -94,4 +96,5 @@ P6 -->|Read Payment Data| D3
 
 P6 -->|Reports / Statistics| Admin
 ```
+
 
