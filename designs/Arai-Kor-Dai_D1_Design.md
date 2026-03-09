@@ -2,7 +2,8 @@
 
 ### Context Diagram 
 
-![Context Diagram](../diagrams/context-diagram.svg)
+![Context Diagram](context-diagram.svg)
+
 
 
 
