@@ -14,7 +14,7 @@
 
 
 ### Post Office Management
-![Post Office Management](https://github.com/ICT-Mahidol/2025-ITCS383-Arai-Kor-Dai/blob/400ae1d56b8820a655e708791b363b4a76a6bf07/designs/Post%20office%20management%20App%20Diagram%20(Current).svg)
+![Post Office Management](https://github.com/ICT-Mahidol/2025-ITCS383-Arai-Kor-Dai/blob/6e67cad12ec638105288ac24f01bf26d8593a464/designs/Post%20office%20management%20App%20Diagram%20(Current).svg)
 
 
 ## Component Diagram
@@ -115,6 +115,7 @@ P6 -->|Read Payment Data| D3
 
 P6 -->|Reports / Statistics| Admin
 ```
+
 
 
 
