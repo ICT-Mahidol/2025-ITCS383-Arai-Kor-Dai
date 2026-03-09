@@ -1,7 +1,7 @@
 # C4 DIAGRAM
 
 ## Context Diagram
-![Context Diagram](https://github.com/ICT-Mahidol/2025-ITCS383-Arai-Kor-Dai/blob/e13499ef928f779d5dc8d4702e0618eea6119dd4/designs/context-diagram.svg.svg)
+![Context Diagram](https://github.com/ICT-Mahidol/2025-ITCS383-Arai-Kor-Dai/blob/08df8f1f41f7fdc5928c94abb98a8924b8edd500/designs/Context%20Diagram%20(Current)%20white.svg)
 
 
 
@@ -115,6 +115,7 @@ P6 -->|Read Payment Data| D3
 
 P6 -->|Reports / Statistics| Admin
 ```
+
 
 
 
