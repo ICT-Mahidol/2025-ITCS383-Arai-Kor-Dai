@@ -2,8 +2,9 @@
 
 ### Context Diagram 
 <p align="center">
-  <img src="../Context Diagram (Current).svg" width="900">
+  <img src="../diagrams/context-diagram.svg" width="900">
 </p>
+
 
 
 
