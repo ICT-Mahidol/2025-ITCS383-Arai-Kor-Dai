@@ -1,76 +1,129 @@
+## Overall Project Structure
+
+Post-Office System
+
+```
+├── README.md
+├── designs
+│   └── D1_Design.md
+├── frontend
+├── backend
+└── database
+```
+
+---
+
 ## Frontend File Structure
 
+```
 frontend/
+├── public
+│   └── index.html
+├── src
+│   ├── pages
+│   │   ├── RegisterPage.js
+│   │   ├── LoginPage.js
+│   │   ├── CreateShipmentPage.js
+│   │   ├── PaymentPage.js
+│   │   ├── TrackingPage.js
+│   │   ├── HistoryPage.js
+│   │   ├── AdminLoginPage.js
+│   │   ├── AdminDashboardPage.js
+│   │   ├── UserApprovalPage.js
+│   │   └── ReportsPage.js
+│   │
+│   ├── components
+│   │   ├── Navbar.js
+│   │   ├── ShipmentForm.js
+│   │   ├── PaymentForm.js
+│   │   ├── TrackingSearch.js
+│   │   ├── LabelPreview.js
+│   │   └── StatsCard.js
+│   │
+│   ├── services
+│   │   ├── authService.js
+│   │   ├── shipmentService.js
+│   │   ├── paymentService.js
+│   │   └── adminService.js
+│   │
+│   ├── utils
+│   │   ├── apiClient.js
+│   │   └── validation.js
+│   │
+│   └── App.js
+```
 
-├── index.html
-
-├── pages/
-│   ├── login.html
-│   ├── dashboard.html
-│   ├── create-parcel.html
-│   ├── customer.html
-│   └── tracking.html
-
-├── css/
-│   ├── style.css
-│   ├── dashboard.css
-│   └── form.css
-
-├── js/
-│   ├── api.js
-│   ├── auth.js
-│   ├── parcel.js
-│   ├── tracking.js
-│   └── customer.js
-
-├── components/
-│   ├── navbar.js
-│   └── footer.js
-
-└── assets/
-    ├── images/
-    └── icons/
-
+---
 
 ## Backend File Structure
 
+```
 backend/
-
 ├── server.js
-├── package.json
-├── .env
-
-├── config/
-│   └── db.js
-
-├── routes/
+├── app.js
+│
+├── config
+│   ├── database.js
+│   ├── jwtConfig.js
+│   └── securityConfig.js
+│
+├── routes
 │   ├── authRoutes.js
-│   ├── parcelRoutes.js
-│   ├── customerRoutes.js
-│   └── paymentRoutes.js
-
-├── controllers/
+│   ├── shipmentRoutes.js
+│   ├── paymentRoutes.js
+│   ├── trackingRoutes.js
+│   └── adminRoutes.js
+│
+├── controllers
 │   ├── authController.js
-│   ├── parcelController.js
-│   ├── customerController.js
-│   └── paymentController.js
-
-├── models/
-│   ├── parcelModel.js
-│   ├── customerModel.js
-│   ├── paymentModel.js
-│   └── staffModel.js
-
-├── middleware/
-│   ├── authMiddleware.js
-│   └── errorHandler.js
-
-├── services/
+│   ├── shipmentController.js
+│   ├── paymentController.js
+│   ├── trackingController.js
+│   └── adminController.js
+│
+├── services
+│   ├── userService.js
+│   ├── shipmentService.js
+│   ├── priceService.js
+│   ├── insuranceService.js
+│   ├── paymentService.js
+│   ├── labelService.js
 │   ├── trackingService.js
-│   └── notificationService.js
+│   └── reportService.js
+│
+├── middleware
+│   ├── authMiddleware.js
+│   ├── validationMiddleware.js
+│   └── errorHandler.js
+│
+├── models
+│   ├── User.js
+│   ├── Shipment.js
+│   ├── Payment.js
+│   └── Tracking.js
+│
+├── utils
+│   ├── pdfGenerator.js
+│   ├── qrGenerator.js
+│   └── trackingNumberGenerator.js
+│
+└── tests
+    ├── auth.test.js
+    ├── shipment.test.js
+    └── payment.test.js
+```
 
-└── database/
-    └── schema.sql
+---
 
+## Database File Structure
 
-
+```
+database/
+├── schema.sql
+├── seed.sql
+└── migrations
+    ├── create_users_table.sql
+    ├── create_shipments_table.sql
+    ├── create_payments_table.sql
+    └── create_tracking_table.sql
+```
