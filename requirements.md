@@ -136,7 +136,7 @@ Backend Framework
 
 - Database
 
-- MongoDB
+- PostgreSQL
 
 Other Tools
 
