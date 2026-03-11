@@ -213,13 +213,13 @@ Provides user interfaces for customers and staff to interact with the system.
 
 ### 1. Open the Project
 
-Open the repository workspace in **Visual Studio Code**.
+Open the repository workspace.
 
 ---
 
 ### 2. Start the Website Server
 
-Click the **"Go Live"** button located at the **bottom-right corner** of VS Code.
+Click the **"Go Live"** button located at the **bottom-right corner**.
 
 This will start the local development server.
 
