@@ -482,18 +482,6 @@ body::before{
 /* ── RIGHT COL STACKED ── */
 .right-col{display:flex;flex-direction:column;gap:20px;}
 
-/* ── SKELETON LOADING ── */
-.skeleton{
-  background:linear-gradient(90deg,#ffe0e0 25%,#fff5f5 50%,#ffe0e0 75%);
-  background-size:200% 100%;
-  animation:shimmer 1.4s infinite;
-  border-radius:6px;
-  display:inline-block;
-}
-@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-.skel-text{height:14px;width:80%;}
-.skel-num{height:32px;width:50%;}
-
 /* ── MOBILE TOGGLE ── */
 .menu-toggle{display:none;}
 
@@ -542,10 +530,10 @@ body::before{
   </div>
 
   <div class="sidebar-user">
-    <div class="user-avatar" id="sidebarInitial">…</div>
+    <div class="user-avatar" id="sidebarInitial">S</div>
     <div class="user-info">
-      <h4 id="sidebarName">Loading…</h4>
-      <p id="sidebarSince">Member</p>
+      <h4 id="sidebarName">Somchai Jaidee</h4>
+      <p id="sidebarSince">Member since 2022</p>
     </div>
   </div>
 
@@ -562,14 +550,13 @@ body::before{
     </a>
     <a href="HistoryPage.html" class="nav-item">
       <span class="nav-icon">📋</span> Shipment History
-      <span class="nav-badge" id="navBadgeTotal">—</span>
+      <span class="nav-badge" id="navBadgeTotal">24</span>
     </a>
 
     <div class="nav-section-label">Account</div>
     <a href="PaymentPage.html" class="nav-item">
       <span class="nav-icon">💳</span> Payments
     </a>
-
     <a href="SettingPage.html" class="nav-item">
       <span class="nav-icon">⚙️</span> Settings
     </a>
@@ -596,7 +583,7 @@ body::before{
   </button>
 
   <div class="topbar-title">
-    <h1 id="topbarGreeting">Good day ☀️</h1>
+    <h1 id="topbarGreeting">Good morning, Somchai ☀️</h1>
     <p id="topbarDate">Loading…</p>
   </div>
 
@@ -606,8 +593,7 @@ body::before{
   </div>
 
   <div class="topbar-actions">
-
-    <div class="topbar-avatar" id="topbarAvatar">…</div>
+    <div class="topbar-avatar" id="topbarAvatar">S</div>
   </div>
 
 </header>
@@ -618,8 +604,8 @@ body::before{
   <!-- Welcome Banner -->
   <div class="welcome-banner">
     <div class="wb-text">
-      <h2 id="bannerTitle">Welcome back to your dashboard</h2>
-      <p id="bannerSubtitle">Loading your shipment summary…</p>
+      <h2 id="bannerTitle">Welcome back, Somchai!</h2>
+      <p id="bannerSubtitle">You have <strong>3 parcels</strong> currently in transit and <strong>2 pending payments</strong>. Everything is on track!</p>
     </div>
     <div class="wb-actions">
       <a href="CreateShipmentPage.html" class="btn-primary">📦 New Shipment</a>
@@ -632,33 +618,33 @@ body::before{
     <div class="stat-card red">
       <div class="stat-top">
         <div class="stat-icon-wrap ic-red">📦</div>
-        <span class="stat-trend trend-up" id="trendTotal">—</span>
+        <span class="stat-trend trend-up">+12%</span>
       </div>
-      <div class="stat-num" id="statTotal"><span class="skeleton skel-num">&nbsp;&nbsp;&nbsp;</span></div>
+      <div class="stat-num">24</div>
       <div class="stat-label">Total Shipments</div>
     </div>
     <div class="stat-card green">
       <div class="stat-top">
         <div class="stat-icon-wrap ic-green">✅</div>
-        <span class="stat-trend trend-up" id="trendDelivered">—</span>
+        <span class="stat-trend trend-up">+8%</span>
       </div>
-      <div class="stat-num" id="statDelivered"><span class="skeleton skel-num">&nbsp;&nbsp;&nbsp;</span></div>
+      <div class="stat-num">19</div>
       <div class="stat-label">Delivered</div>
     </div>
     <div class="stat-card blue">
       <div class="stat-top">
         <div class="stat-icon-wrap ic-blue">🚚</div>
-        <span class="stat-trend trend-up" id="trendTransit">—</span>
+        <span class="stat-trend trend-up">+2</span>
       </div>
-      <div class="stat-num" id="statTransit"><span class="skeleton skel-num">&nbsp;&nbsp;&nbsp;</span></div>
+      <div class="stat-num">3</div>
       <div class="stat-label">In Transit</div>
     </div>
     <div class="stat-card amber">
       <div class="stat-top">
         <div class="stat-icon-wrap ic-amber">⏳</div>
-        <span class="stat-trend trend-dn" id="trendPending">—</span>
+        <span class="stat-trend trend-dn">2</span>
       </div>
-      <div class="stat-num" id="statPending"><span class="skeleton skel-num">&nbsp;&nbsp;&nbsp;</span></div>
+      <div class="stat-num">2</div>
       <div class="stat-label">Pending</div>
     </div>
   </div>
@@ -692,8 +678,41 @@ body::before{
               </tr>
             </thead>
             <tbody id="shipmentsTableBody">
-              <!-- Skeleton rows while loading -->
-              <tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted);font-size:.82rem;">Loading shipments…</td></tr>
+              <tr>
+                <td><span class="tid">TH-2024-0089</span></td>
+                <td class="dest-cell">Bangkok, TH</td>
+                <td style="color:var(--text-muted);font-size:.78rem;">12 Mar 2024</td>
+                <td><span class="badge b-transit">🚚 In Transit</span></td>
+                <td><a href="TrackingPage.html?id=TH-2024-0089" class="see-all">Track</a></td>
+              </tr>
+              <tr>
+                <td><span class="tid">TH-2024-0088</span></td>
+                <td class="dest-cell">Chiang Mai, TH</td>
+                <td style="color:var(--text-muted);font-size:.78rem;">10 Mar 2024</td>
+                <td><span class="badge b-delivered">✅ Delivered</span></td>
+                <td><a href="TrackingPage.html?id=TH-2024-0088" class="see-all">Track</a></td>
+              </tr>
+              <tr>
+                <td><span class="tid">TH-2024-0085</span></td>
+                <td class="dest-cell">Phuket, TH</td>
+                <td style="color:var(--text-muted);font-size:.78rem;">7 Mar 2024</td>
+                <td><span class="badge b-delivered">✅ Delivered</span></td>
+                <td><a href="TrackingPage.html?id=TH-2024-0085" class="see-all">Track</a></td>
+              </tr>
+              <tr>
+                <td><span class="tid">TH-2024-0081</span></td>
+                <td class="dest-cell">Khon Kaen, TH</td>
+                <td style="color:var(--text-muted);font-size:.78rem;">3 Mar 2024</td>
+                <td><span class="badge b-processing">⚙️ Processing</span></td>
+                <td><a href="TrackingPage.html?id=TH-2024-0081" class="see-all">Track</a></td>
+              </tr>
+              <tr>
+                <td><span class="tid">TH-2024-0077</span></td>
+                <td class="dest-cell">Hat Yai, TH</td>
+                <td style="color:var(--text-muted);font-size:.78rem;">28 Feb 2024</td>
+                <td><span class="badge b-pending">⏳ Pending</span></td>
+                <td><a href="TrackingPage.html?id=TH-2024-0077" class="see-all">Track</a></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -726,20 +745,20 @@ body::before{
 
       <!-- Profile Card -->
       <div class="profile-card">
-        <div class="pc-avatar" id="pcAvatar">…</div>
-        <div class="pc-name" id="pcName">Loading…</div>
-        <div class="pc-email" id="pcEmail">…</div>
+        <div class="pc-avatar">S</div>
+        <div class="pc-name">Somchai Jaidee</div>
+        <div class="pc-email">somchai.jaidee@example.com</div>
         <div class="pc-stats">
           <div class="pc-stat">
-            <div class="pc-stat-num" id="pcStatTotal">—</div>
+            <div class="pc-stat-num">24</div>
             <div class="pc-stat-label">Shipments</div>
           </div>
           <div class="pc-stat">
-            <div class="pc-stat-num" id="pcStatDelivered">—</div>
+            <div class="pc-stat-num">19</div>
             <div class="pc-stat-label">Delivered</div>
           </div>
           <div class="pc-stat">
-            <div class="pc-stat-num" id="pcStatSpend">—</div>
+            <div class="pc-stat-num">฿4,820</div>
             <div class="pc-stat-label">Spent</div>
           </div>
         </div>
@@ -783,14 +802,41 @@ body::before{
             <div class="card-icon">🔔</div>
             <div>
               <h3>Notifications</h3>
-              <p id="notifUnreadLabel">Loading…</p>
+              <p id="notifUnreadLabel">2 unread</p>
             </div>
           </div>
           <a href="#" class="see-all" onclick="markAllRead(event)">Mark all read</a>
         </div>
         <div class="card-body" style="padding-top:8px;">
           <div class="notif-list" id="notifList">
-            <div style="text-align:center;padding:16px;color:var(--text-muted);font-size:.82rem;">Loading…</div>
+            <div class="notif-item notif-unread">
+              <div class="notif-dot-i nd-blue"></div>
+              <div class="notif-body">
+                <p>Your parcel TH-2024-0089 has departed Bangkok sorting centre.</p>
+                <span>2 hours ago</span>
+              </div>
+            </div>
+            <div class="notif-item notif-unread">
+              <div class="notif-dot-i nd-amber"></div>
+              <div class="notif-body">
+                <p>Payment for TH-2024-0081 is still pending. Please complete payment.</p>
+                <span>5 hours ago</span>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-dot-i nd-green"></div>
+              <div class="notif-body">
+                <p>TH-2024-0088 was successfully delivered to Chiang Mai.</p>
+                <span>Yesterday</span>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-dot-i nd-red"></div>
+              <div class="notif-body">
+                <p>New shipment TH-2024-0089 has been created successfully.</p>
+                <span>2 days ago</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -812,9 +858,7 @@ body::before{
         </div>
       </div>
       <div class="card-body">
-        <div class="chart-container" id="chart">
-          <div style="width:100%;text-align:center;color:var(--text-muted);font-size:.82rem;padding:40px 0;">Loading chart…</div>
-        </div>
+        <div class="chart-container" id="chart"></div>
       </div>
     </div>
 
@@ -830,7 +874,61 @@ body::before{
       </div>
       <div class="card-body" style="padding-top:8px;">
         <div class="tl-list" id="activityList">
-          <div style="text-align:center;padding:16px;color:var(--text-muted);font-size:.82rem;">Loading…</div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap">
+              <div class="tl-dot blue">🚚</div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <div class="tl-title">Parcel departed sorting centre</div>
+              <div class="tl-sub">TH-2024-0089 • Bangkok Hub</div>
+              <div class="tl-time">2 hours ago</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap">
+              <div class="tl-dot green">✅</div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <div class="tl-title">Parcel delivered successfully</div>
+              <div class="tl-sub">TH-2024-0088 • Chiang Mai</div>
+              <div class="tl-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap">
+              <div class="tl-dot amber">💳</div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <div class="tl-title">Payment received</div>
+              <div class="tl-sub">TH-2024-0088 • ฿320</div>
+              <div class="tl-time">2 days ago</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap">
+              <div class="tl-dot red">📦</div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <div class="tl-title">New shipment created</div>
+              <div class="tl-sub">TH-2024-0089 • Bangkok → Pattaya</div>
+              <div class="tl-time">2 days ago</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap">
+              <div class="tl-dot blue">🚚</div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <div class="tl-title">Parcel arrived at local branch</div>
+              <div class="tl-sub">TH-2024-0085 • Phuket Branch</div>
+              <div class="tl-time">5 days ago</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -841,19 +939,29 @@ body::before{
 
 <script>
 // ════════════════════════════════════════════════
-//  CONFIG — change this to your backend URL
+//  FAKE DATA — all static, no API calls
 // ════════════════════════════════════════════════
-const API = 'http://localhost:3000/api';
 
-// ── Get logged-in user ID from session/localStorage
-// Replace this with however you store the session (JWT, cookie, etc.)
-const USER_ID = localStorage.getItem('userId') || 1;
+const FAKE_TRACKING_DB = {
+  'TH-2024-0089': { status: 'In Transit',  origin: 'Bangkok',   destination: 'Pattaya',   eta: '14 Mar 2024', last_update: 'Departed Bangkok Hub' },
+  'TH-2024-0088': { status: 'Delivered',   origin: 'Bangkok',   destination: 'Chiang Mai',eta: '10 Mar 2024', last_update: 'Delivered to recipient' },
+  'TH-2024-0085': { status: 'Delivered',   origin: 'Bangkok',   destination: 'Phuket',    eta: '7 Mar 2024',  last_update: 'Delivered to recipient' },
+  'TH-2024-0081': { status: 'Processing',  origin: 'Bangkok',   destination: 'Khon Kaen', eta: '16 Mar 2024', last_update: 'Awaiting payment confirmation' },
+  'TH-2024-0077': { status: 'Pending',     origin: 'Bangkok',   destination: 'Hat Yai',   eta: '—',           last_update: 'Awaiting drop-off' },
+};
 
+const MONTHLY_DATA = [
+  { month: 'Oct', count: 2 },
+  { month: 'Nov', count: 4 },
+  { month: 'Dec', count: 6 },
+  { month: 'Jan', count: 3 },
+  { month: 'Feb', count: 5 },
+  { month: 'Mar', count: 4 },
+];
 
-function getInitial(name) {
-  return name ? name.trim()[0].toUpperCase() : '?';
-}
-
+// ════════════════════════════════════════════════
+//  GREETING & DATE
+// ════════════════════════════════════════════════
 function getGreeting() {
   const h = new Date().getHours();
   if (h < 12) return 'Good morning';
@@ -861,231 +969,23 @@ function getGreeting() {
   return 'Good evening';
 }
 
-function formatDate(dateStr) {
-  if (!dateStr) return '—';
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('en-TH', { day: 'numeric', month: 'short', year: 'numeric' });
-}
-
-function formatTimeAgo(dateStr) {
-  if (!dateStr) return '';
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `${mins} minutes ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs} hour${hrs > 1 ? 's' : ''} ago`;
-  const days = Math.floor(hrs / 24);
-  if (days === 1) return 'Yesterday';
-  return formatDate(dateStr);
-}
-
-function statusBadge(status) {
-  const s = (status || '').toLowerCase();
-  if (s === 'delivered')  return `<span class="badge b-delivered">✅ Delivered</span>`;
-  if (s === 'in transit' || s === 'transit') return `<span class="badge b-transit">🚚 In Transit</span>`;
-  if (s === 'processing') return `<span class="badge b-processing">⚙️ Processing</span>`;
-  return `<span class="badge b-pending">⏳ Pending</span>`;
-}
-
-function activityDotColor(type) {
-  const map = { delivered:'green', payment:'amber', created:'red', arrived:'blue', transit:'blue' };
-  return map[(type||'').toLowerCase()] || 'blue';
-}
-
-function activityIcon(type) {
-  const map = { delivered:'✅', payment:'💳', created:'📦', arrived:'🚚', transit:'🚚' };
-  return map[(type||'').toLowerCase()] || '📋';
-}
-
-function notifDotClass(type) {
-  const map = { info:'nd-blue', warning:'nd-amber', success:'nd-green', error:'nd-red' };
-  return map[(type||'').toLowerCase()] || 'nd-blue';
+function setTopbarDate() {
+  const now = new Date();
+  document.getElementById('topbarDate').textContent = now.toLocaleDateString('en-TH', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+  });
+  document.getElementById('topbarGreeting').textContent = `${getGreeting()}, Somchai ☀️`;
 }
 
 // ════════════════════════════════════════════════
-//  API FETCH WRAPPER
+//  CHART — rendered from fake monthly data
 // ════════════════════════════════════════════════
-async function apiFetch(path) {
-  try {
-    const res = await fetch(`${API}${path}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } catch (err) {
-    console.error(`API error [${path}]:`, err.message);
-    return null;
-  }
-}
-
-// ════════════════════════════════════════════════
-//  1. LOAD USER PROFILE
-// ════════════════════════════════════════════════
-async function loadProfile() {
-  let user = await apiFetch(`/user/profile/${USER_ID}`);
-
-  // Fallback: localStorage saved at login, or hardcode from DB
-  if (!user) {
-    const lsName  = localStorage.getItem('userName');
-    const lsEmail = localStorage.getItem('userEmail');
-    user = {
-      name:       lsName  || 'Somchai Jaidee',
-      email:      lsEmail || 'somchai@example.com',
-      created_at: null
-    };
-  }
-
-  // Persist so other pages can use it
-  localStorage.setItem('userName',  user.name);
-  localStorage.setItem('userEmail', user.email || '—');
-
-  const initial = getInitial(user.name);
-  const since   = user.created_at ? `Member since ${new Date(user.created_at).getFullYear()}` : 'Member';
-
-  // Sidebar
-  document.getElementById('sidebarInitial').textContent = initial;
-  document.getElementById('sidebarName').textContent    = user.name;
-  document.getElementById('sidebarSince').textContent   = since;
-
-  // Topbar
-  document.getElementById('topbarGreeting').textContent = `${getGreeting()}, ${user.name.split(' ')[0]} ☀️`;
-  document.getElementById('topbarAvatar').textContent   = initial;
-
-  // Profile card
-  document.getElementById('pcAvatar').textContent = initial;
-  document.getElementById('pcName').textContent   = user.name;
-  document.getElementById('pcEmail').textContent  = user.email || '—';
-
-  // Welcome banner
-  document.getElementById('bannerTitle').textContent = `Welcome back, ${user.name.split(' ')[0]}!`;
-}
-
-// ════════════════════════════════════════════════
-//  2. LOAD STATS CARDS
-// ════════════════════════════════════════════════
-async function loadStats() {
-  const stats = await apiFetch(`/user/stats/${USER_ID}`);
-  if (!stats) return;
-
-  document.getElementById('statTotal').textContent     = stats.total     ?? 0;
-  document.getElementById('statDelivered').textContent = stats.delivered  ?? 0;
-  document.getElementById('statTransit').textContent   = stats.transit    ?? 0;
-  document.getElementById('statPending').textContent   = stats.pending    ?? 0;
-
-  // Profile card mini-stats
-  document.getElementById('pcStatTotal').textContent     = stats.total     ?? 0;
-  document.getElementById('pcStatDelivered').textContent = stats.delivered  ?? 0;
-  document.getElementById('pcStatSpend').textContent     = stats.totalSpend
-    ? `฿${Number(stats.totalSpend).toLocaleString()}`
-    : '฿0';
-
-  // Welcome banner summary
-  const transit = stats.transit ?? 0;
-  const pending = stats.pending ?? 0;
-  document.getElementById('bannerSubtitle').innerHTML =
-    `You have <strong>${transit} parcel${transit !== 1 ? 's' : ''}</strong> currently in transit` +
-    (pending > 0 ? ` and <strong>${pending} pending payment${pending !== 1 ? 's' : ''}</strong>` : '') +
-    `. Everything is on track!`;
-}
-
-// ════════════════════════════════════════════════
-//  3. LOAD SHIPMENTS TABLE
-// ════════════════════════════════════════════════
-async function loadShipments() {
-  const shipments = await apiFetch(`/shipments/${USER_ID}`);
-  const tbody = document.getElementById('shipmentsTableBody');
-
-  if (!shipments || shipments.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted);font-size:.82rem;">No shipments found.</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = shipments.slice(0, 5).map(s => `
-    <tr>
-      <td><span class="tid">${s.tracking_number}</span></td>
-      <td class="dest-cell">${s.destination}</td>
-      <td style="color:var(--text-muted);font-size:.78rem;">${formatDate(s.created_at)}</td>
-      <td>${statusBadge(s.status)}</td>
-      <td><a href="TrackingPage.html?id=${s.tracking_number}" class="see-all">Track</a></td>
-    </tr>
-  `).join('');
-
-  // Update nav badge
-  document.getElementById('navBadgeTotal').textContent = shipments.length;
-}
-
-// ════════════════════════════════════════════════
-//  4. LOAD NOTIFICATIONS
-// ════════════════════════════════════════════════
-async function loadNotifications() {
-  const notifs = await apiFetch(`/notifications/${USER_ID}`);
-  const list   = document.getElementById('notifList');
-
-  if (!notifs || notifs.length === 0) {
-    list.innerHTML = `<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:.82rem;">No notifications.</div>`;
-    document.getElementById('notifUnreadLabel').textContent = '0 unread';
-    return;
-  }
-
-  const unread = notifs.filter(n => !n.is_read).length;
-  document.getElementById('notifUnreadLabel').textContent = `${unread} unread`;
-  document.getElementById('navBadgeNotif').textContent    = unread;
-
-  // Show/hide topbar red dot
-  if (unread > 0) document.getElementById('notifDot').style.display = 'block';
-
-  list.innerHTML = notifs.slice(0, 4).map(n => `
-    <div class="notif-item ${!n.is_read ? 'notif-unread' : ''}">
-      <div class="notif-dot-i ${notifDotClass(n.type)}"></div>
-      <div class="notif-body">
-        <p>${n.message}</p>
-        <span>${formatTimeAgo(n.created_at)}</span>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ════════════════════════════════════════════════
-//  5. LOAD RECENT ACTIVITY TIMELINE
-// ════════════════════════════════════════════════
-async function loadActivity() {
-  const events = await apiFetch(`/activity/${USER_ID}`);
-  const list   = document.getElementById('activityList');
-
-  if (!events || events.length === 0) {
-    list.innerHTML = `<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:.82rem;">No recent activity.</div>`;
-    return;
-  }
-
-  list.innerHTML = events.slice(0, 5).map(e => `
-    <div class="tl-item">
-      <div class="tl-dot-wrap">
-        <div class="tl-dot ${activityDotColor(e.type)}">${activityIcon(e.type)}</div>
-        <div class="tl-line"></div>
-      </div>
-      <div class="tl-content">
-        <div class="tl-title">${e.title}</div>
-        <div class="tl-sub">${e.subtitle || ''}</div>
-        <div class="tl-time">${formatTimeAgo(e.created_at)}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ════════════════════════════════════════════════
-//  6. LOAD MONTHLY CHART
-// ════════════════════════════════════════════════
-async function loadChart() {
-  const data  = await apiFetch(`/shipments/monthly/${USER_ID}`);
+function renderChart() {
   const chart = document.getElementById('chart');
-
-  if (!data || data.length === 0) {
-    chart.innerHTML = `<div style="width:100%;text-align:center;color:var(--text-muted);font-size:.82rem;padding:40px 0;">No chart data available.</div>`;
-    return;
-  }
-
-  const maxV = Math.max(...data.map(d => d.count), 1);
+  const maxV = Math.max(...MONTHLY_DATA.map(d => d.count), 1);
   chart.innerHTML = '';
 
-  data.forEach(d => {
+  MONTHLY_DATA.forEach(d => {
     const pct = (d.count / maxV) * 100;
     const group = document.createElement('div');
     group.className = 'bar-group';
@@ -1100,7 +1000,6 @@ async function loadChart() {
     chart.appendChild(group);
   });
 
-  // Animate bars after paint
   requestAnimationFrame(() => {
     setTimeout(() => {
       document.querySelectorAll('.bar').forEach(bar => {
@@ -1111,37 +1010,31 @@ async function loadChart() {
 }
 
 // ════════════════════════════════════════════════
-//  7. QUICK TRACK — now fetches from API
+//  QUICK TRACK — looks up fake DB
 // ════════════════════════════════════════════════
-async function doTrack() {
+function doTrack() {
   const val = document.getElementById('trackInput').value.trim().toUpperCase();
   const res = document.getElementById('trackResult');
   if (!val) return;
 
+  const data = FAKE_TRACKING_DB[val];
   res.classList.add('show');
-  res.innerHTML = `<div style="text-align:center;color:var(--text-muted);font-size:.82rem;padding:8px 0;">🔍 Searching…</div>`;
 
-  const data = await apiFetch(`/shipments/track/${val}`);
-
-  if (!data || data.error) {
+  if (!data) {
     res.innerHTML = `<div style="text-align:center;color:var(--text-muted);font-size:.83rem;padding:8px 0;">❌ Tracking number not found. Please check and try again.</div>`;
     return;
   }
 
-  const statusLabel = data.status
-    ? data.status.charAt(0).toUpperCase() + data.status.slice(1)
-    : 'Unknown';
-
   res.innerHTML = `
     <div class="tr-header">
-      <span class="tr-status-badge">${statusLabel}</span>
+      <span class="tr-status-badge">${data.status}</span>
       <span class="tr-id">${val}</span>
     </div>
     <div class="tr-info">
-      <div class="tr-field"><label>Origin</label><p>${data.origin || '—'}</p></div>
-      <div class="tr-field"><label>Destination</label><p>${data.destination || data.dest || '—'}</p></div>
-      <div class="tr-field"><label>Est. Delivery</label><p>${data.eta ? formatDate(data.eta) : '—'}</p></div>
-      <div class="tr-field"><label>Last Update</label><p>${data.last_update || '—'}</p></div>
+      <div class="tr-field"><label>Origin</label><p>${data.origin}</p></div>
+      <div class="tr-field"><label>Destination</label><p>${data.destination}</p></div>
+      <div class="tr-field"><label>Est. Delivery</label><p>${data.eta}</p></div>
+      <div class="tr-field"><label>Last Update</label><p>${data.last_update}</p></div>
     </div>`;
 }
 
@@ -1151,26 +1044,18 @@ function clearResult() {
   res.innerHTML = '';
 }
 
-// Topbar search syncs to quick-track input
 function handleTopbarSearch(val) {
   const input = document.getElementById('trackInput');
   if (input) input.value = val;
 }
 
 // ════════════════════════════════════════════════
-//  8. MARK ALL NOTIFICATIONS READ
+//  MARK ALL NOTIFICATIONS READ
 // ════════════════════════════════════════════════
-async function markAllRead(e) {
+function markAllRead(e) {
   e.preventDefault();
-  try {
-    await fetch(`${API}/notifications/${USER_ID}/read-all`, { method: 'PATCH' });
-  } catch (_) {}
-
-  // Update UI immediately
   document.querySelectorAll('.notif-item').forEach(el => el.classList.remove('notif-unread'));
   document.getElementById('notifUnreadLabel').textContent = '0 unread';
-  document.getElementById('navBadgeNotif').textContent    = '0';
-  document.getElementById('notifDot').style.display       = 'none';
 }
 
 // ════════════════════════════════════════════════
@@ -1186,26 +1071,10 @@ function closeSidebar() {
 }
 
 // ════════════════════════════════════════════════
-//  SET DATE IN TOPBAR
+//  INIT
 // ════════════════════════════════════════════════
-function setTopbarDate() {
-  const now = new Date();
-  document.getElementById('topbarDate').textContent = now.toLocaleDateString('en-TH', {
-    weekday:'long', day:'numeric', month:'long', year:'numeric'
-  });
-}
-
 setTopbarDate();
-
-Promise.all([
-  loadProfile(),
-  loadStats(),
-  loadShipments(),
-  loadNotifications(),
-  loadActivity(),
-  loadChart(),
-]);
-
+renderChart();
 </script>
 </body>
 </html>
