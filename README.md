@@ -137,4 +137,100 @@ database/
     └── create_tracking_table.sql
 ```
 
- 
+ Project Overview
+
+Domain: Post Office Online Shipping System
+
+Purpose:
+This system allows customers to prepare parcels or letters before going to the post office. Users can register, create shipping transactions, pay online, and print a shipping label. The label can be attached to the parcel or letter before dropping it off at a post office box or service location.
+
+Main Features:
+
+Customer registration with identity verification (upload national ID card and photo holding the ID).
+
+Account approval process by post office staff.
+
+Customer login using email and password.
+
+Create shipping orders by selecting parcel type, size, and weight.
+
+Enter receiver information and delivery location.
+
+Automatic price calculation for shipping services.
+
+Electronic payment through:
+
+Mobile banking (PromptPay)
+
+Credit card
+
+E-wallet (e.g., TrueMoney Wallet)
+
+Generate a PDF shipping label containing sender/receiver details and a QR code for parcel tracking.
+
+Customers can track parcel status using a tracking number.
+
+Optional insurance for valuable items.
+
+Administrative dashboard for post office staff to:
+
+Monitor number of parcels per day, week, and month
+
+View revenue reports
+
+Generate formatted PDF reports for management
+
+System Requirements:
+
+High availability with 99.999% uptime.
+
+Fast response time (pages should respond within 1 second).
+
+Strong security to protect sensitive information such as national ID and payment data.
+
+Data encryption for storage and network transmission.
+
+System theme follows Thailand Post design (white and red).
+
+Architecture:
+The project is separated into two main parts:
+
+Backend (Node.js + Express)
+Provides REST API services and handles database operations.
+
+Frontend (HTML / Web Interface)
+Provides user interfaces for customers and staff to interact with the system.
+
+Build & Run Instructions
+1. Open the Project
+
+Open the workspace of this repository in VS Code.
+
+2. Start the Website Server
+
+Click the "Go Live" button located at the bottom-right corner of VS Code.
+
+This will start the local development server.
+
+3. Navigate to the Frontend Files
+
+Follow this path in the file explorer:
+
+implementations
+   └── frontend
+       └── src
+           └── Pages
+4. Open the Login Page
+
+Open the file:
+
+loginpage.html
+5. Run the System
+
+Once the file is opened, the browser will display the login page of the Post Office system where users can:
+
+Register a new account
+
+Log in to the system
+
+Access parcel services
