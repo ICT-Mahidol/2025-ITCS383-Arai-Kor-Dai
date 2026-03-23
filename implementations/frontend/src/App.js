@@ -23,7 +23,7 @@ export default function App() {
       <Routes>
 
         {/* ── Default ── */}
-        <Route path="/"                  element={<UserDashboard />} />
+        <Route path="/" element={<LoginPage />} />/>
 
         {/* ── User ── */}
         <Route path="/login"             element={<LoginPage />} />
