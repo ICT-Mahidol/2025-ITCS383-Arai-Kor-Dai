@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = `
@@ -287,6 +288,9 @@ const STEP_SUCCESS = 'success';
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function AdminLoginPage() {
+  // ── React Router navigate hook ──
+  const navigate = useNavigate();
+
   const [step, setStep]             = useState(STEP_LOGIN);
   const [adminLevel, setAdminLevel] = useState('superadmin');
   const [uid, setUid]               = useState('');
@@ -333,7 +337,7 @@ export default function AdminLoginPage() {
     }, 1400);
   }, [uid, pw]);
 
-  // ── Step 2: OTP verify ──
+  // ── Step 2: OTP verify — navigates to AdminDashboardPage on success ──
   const verifyOtp = useCallback(() => {
     const code = otp.join('');
     if (code.length < 6) {
@@ -341,14 +345,21 @@ export default function AdminLoginPage() {
       setTimeout(() => setOtpError(false), 1200);
       return;
     }
+
     setOtpLoading(true);
     setTimeout(() => {
       setOtpLoading(false);
       setStep(STEP_SUCCESS);
-      // Replace with router navigation: navigate('/admin/dashboard')
-      // setTimeout(() => { window.location.href = 'Admindashboardpage.html'; }, 1200);
+
+      // ── Navigate to AdminDashboardPage after a short success flash ──
+      setTimeout(() => {
+        navigate('/admin/dashboard', {
+          // Pass login context so the dashboard knows who logged in
+          state: { adminLevel, uid },
+        });
+      }, 1200);
     }, 1500);
-  }, [otp]);
+  }, [otp, navigate, adminLevel, uid]);
 
   const backToLogin = () => {
     setStep(STEP_LOGIN);
@@ -360,8 +371,8 @@ export default function AdminLoginPage() {
   useEffect(() => {
     const handler = (e) => {
       if (e.key !== 'Enter') return;
-      if (step === STEP_LOGIN)  handleAdminLogin();
-      if (step === STEP_2FA)    verifyOtp();
+      if (step === STEP_LOGIN) handleAdminLogin();
+      if (step === STEP_2FA)   verifyOtp();
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
@@ -592,7 +603,7 @@ export default function AdminLoginPage() {
               </div>
             )}
 
-            {/* Step 3 — Success */}
+            {/* Step 3 — Success flash before redirect */}
             {step === STEP_SUCCESS && (
               <div className="success-state">
                 <span className="s-icon">🛡️</span>
