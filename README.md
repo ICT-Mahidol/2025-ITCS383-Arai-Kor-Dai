@@ -26,40 +26,29 @@ Post-Office System
 
 ```
 frontend/
-├── public
-│   └── index.html
-├── src
-│   ├── pages
-│   │   ├── RegisterPage.js
-│   │   ├── LoginPage.js
-│   │   ├── CreateShipmentPage.js
-│   │   ├── PaymentPage.js
-│   │   ├── TrackingPage.js
-│   │   ├── HistoryPage.js
-│   │   ├── AdminLoginPage.js
-│   │   ├── AdminDashboardPage.js
-│   │   ├── UserApprovalPage.js
-│   │   └── ReportsPage.js
-│   │
-│   ├── components
-│   │   ├── Navbar.js
-│   │   ├── ShipmentForm.js
-│   │   ├── PaymentForm.js
-│   │   ├── TrackingSearch.js
-│   │   ├── LabelPreview.js
-│   │   └── StatsCard.js
-│   │
-│   ├── services
-│   │   ├── authService.js
-│   │   ├── shipmentService.js
-│   │   ├── paymentService.js
-│   │   └── adminService.js
-│   │
-│   ├── utils
-│   │   ├── apiClient.js
-│   │   └── validation.js
-│   │
-│   └── App.js
+├── public/
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src/
+│   ├── Pages/
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   └── setupTests.js
+├── .env
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+└── Agent.md
 ```
 
 ---
