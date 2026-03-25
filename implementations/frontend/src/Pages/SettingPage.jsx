@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 // ════════════════════════════════════════════════
 //  REUSABLE: Toggle Switch
@@ -75,7 +76,7 @@ function ProfilePanel() {
             </div>
             <div className="avatar-info">
               <h4>Somchai Jaidee</h4>
-              <p>somchai@email.com · Member since Jan 2023</p>
+              <p>somchai@email.com · Member since Jan 2026</p>
               <div className="avatar-btns">
                 <button className="btn-sm-primary">Upload Photo</button>
                 <button className="btn-sm-outline">Remove</button>
@@ -611,6 +612,7 @@ const NAV_ITEMS = [
 ];
 
 export default function SettingPage() {
+  const navigate = useNavigate();
   const [activePanel, setActivePanel] = useState("profile");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -640,27 +642,31 @@ export default function SettingPage() {
         </div>
         <div className="sidebar-user">
           <div className="user-avatar">S</div>
-          <div className="user-info"><h4>Somchai Jaidee</h4><p>Member since 2023</p></div>
+          <div className="user-info"><h4>Somchai Jaidee</h4><p>Member since 2026</p></div>
         </div>
         <div className="sidebar-nav">
           <div className="nav-section-label">Main</div>
           {[
-            { href: "/",          icon: "🏠", label: "Dashboard"        },
-            { href: "/tracking",  icon: "📍", label: "Track Parcel"     },
-            { href: "/create",    icon: "📦", label: "Create Shipment"  },
-            { href: "/history",   icon: "📋", label: "Shipment History", badge: "24" },
-          ].map(({ href, icon, label, badge }) => (
-            <a key={label} href={href} className="nav-item">
+            { to: "/dashboard", icon: "🏠", label: "Dashboard"        },
+            { to: "/tracking",  icon: "📍", label: "Track Parcel"     },
+            { to: "/create",    icon: "📦", label: "Create Shipment"  },
+            { to: "/history",   icon: "📋", label: "Shipment History", badge: "24" },
+          ].map(({ to, icon, label, badge }) => (
+            <button key={label} onClick={() => navigate(to)} className="nav-item">
               <span className="nav-icon">{icon}</span> {label}
               {badge && <span className="nav-badge">{badge}</span>}
-            </a>
+            </button>
           ))}
           <div className="nav-section-label">Account</div>
-          <a href="/payments"      className="nav-item"><span className="nav-icon">💳</span> Payments</a>
-          <a href="/notifications" className="nav-item"><span className="nav-icon">🔔</span> Notifications <span className="nav-badge">3</span></a>
-          <a href="/settings"      className="nav-item active"><span className="nav-icon">⚙️</span> Settings</a>
+          <button onClick={() => navigate("/payments")} className="nav-item"><span className="nav-icon">💳</span> Payments</button>
+          <button onClick={() => navigate("/settings")} className="nav-item active"><span className="nav-icon">⚙️</span> Settings</button>
         </div>
-        <div className="sidebar-footer">© 2024 Thai Post Office System</div>
+        <div className="sidebar-footer">
+          <button onClick={() => navigate("/login")} className="nav-item logout-btn">
+            <span className="nav-icon">🚪</span> Logout
+          </button>
+          <div className="footer-copy">© 2024 Thai Post Office System</div>
+        </div>
       </nav>
 
       {/* ════ TOPBAR ════ */}
@@ -749,12 +755,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .user-info p{font-size:.67rem;opacity:.65;color:#fff;}
 .sidebar-nav{flex:1;padding:14px 12px;overflow-y:auto;}
 .nav-section-label{font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:600;padding:8px 8px 4px;margin-top:6px;}
-.nav-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:11px;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.78);font-size:.83rem;font-weight:500;margin-bottom:2px;text-decoration:none;}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:11px;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.78);font-size:.83rem;font-weight:500;margin-bottom:2px;text-decoration:none;background:none;border:none;width:100%;text-align:left;font-family:inherit;}
 .nav-item:hover{background:rgba(255,255,255,.14);color:#fff;}
 .nav-item.active{background:rgba(255,255,255,.22);color:#fff;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.12);}
 .nav-item .nav-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0;}
 .nav-badge{margin-left:auto;background:rgba(255,255,255,.25);color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:20px;}
-.sidebar-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,.1);font-size:.7rem;color:rgba(255,255,255,.45);}
+.sidebar-footer{padding:10px 12px;border-top:1px solid rgba(255,255,255,.1);}
+.logout-btn{color:rgba(255,140,140,.95) !important;}
+.logout-btn:hover{background:rgba(255,80,80,.2) !important;color:#ffaaaa !important;}
+.footer-copy{font-size:.65rem;color:rgba(255,255,255,.35);padding:6px 12px 2px;}
 .topbar{position:fixed;left:var(--sidebar-w);right:0;top:0;height:var(--topbar-h);background:rgba(255,255,255,.96);backdrop-filter:blur(12px);z-index:90;display:flex;align-items:center;padding:0 28px;box-shadow:0 2px 12px rgba(130,20,20,.1);border-bottom:1px solid rgba(240,190,190,.3);gap:16px;}
 .topbar-title{flex:1;}
 .topbar-title h1{font-family:'Barlow',serif;font-size:1.15rem;font-weight:700;color:var(--text-dark);}
