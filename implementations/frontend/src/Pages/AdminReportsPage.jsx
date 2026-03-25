@@ -455,6 +455,282 @@ export default function AdminReportsPage() {
     a.click(); URL.revokeObjectURL(url);
   }, [d]);
 
+  // ── Load jsPDF from CDN (once) ──────────────────────────────────────────────
+  const loadJsPDF = useCallback(() => {
+    return new Promise((resolve, reject) => {
+      if (window.jspdf) return resolve(window.jspdf.jsPDF);
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      script.onload = () => resolve(window.jspdf.jsPDF);
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }, []);
+
+  // ── Build real PDF ──────────────────────────────────────────────────────────
+  const exportPDF = useCallback(async () => {
+    const JsPDF = await loadJsPDF();
+    const doc = new JsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const PW = 210, PH = 297;
+    const ML = 18, MR = 18, MT = 18;
+    let y = MT;
+
+    const accent = [192, 57, 43];
+    const dark   = [26, 5, 5];
+    const muted  = [124, 85, 85];
+    const light  = [247, 241, 241];
+
+    // ── Header bar ──
+    doc.setFillColor(...accent);
+    doc.rect(0, 0, PW, 14, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('POST OFFICE MANAGEMENT SYSTEM', ML, 9);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.text('ADMIN REPORT', PW - MR, 9, { align: 'right' });
+    y = 22;
+
+    // ── Title ──
+    doc.setTextColor(...dark);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.text('Analytics Report', ML, y);
+    y += 7;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...muted);
+    doc.text(`Period: ${d.periodLabel}  |  Generated: ${new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })}`, ML, y);
+    y += 3;
+    doc.setDrawColor(...accent);
+    doc.setLineWidth(0.5);
+    doc.line(ML, y, PW - MR, y);
+    y += 6;
+
+    // ── Section: KPI Summary ──
+    if (exportChecks.stats || exportChecks.summary) {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...accent);
+      doc.text('KEY PERFORMANCE INDICATORS', ML, y);
+      y += 5;
+
+      const kpis = [
+        { label: 'Total Items',      value: d.total.toLocaleString() },
+        { label: 'Delivered',        value: d.delivered.toLocaleString() },
+        { label: 'In Transit',       value: d.transit.toLocaleString() },
+        { label: 'Delivery Rate',    value: d.rate },
+        { label: 'Return Rate',      value: d.ret },
+        { label: 'Total Revenue',    value: `THB ${d.revenue_total.toLocaleString()}` },
+        { label: 'Avg Fee',          value: `THB ${d.avg}` },
+        { label: 'Peak Day',         value: d.peakDay },
+      ];
+
+      const colW = (PW - ML - MR) / 2;
+      kpis.forEach((k, i) => {
+        const col = i % 2;
+        const row = Math.floor(i / 2);
+        const bx = ML + col * colW;
+        const by = y + row * 12;
+        doc.setFillColor(...light);
+        doc.roundedRect(bx, by, colW - 3, 10, 2, 2, 'F');
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(...muted);
+        doc.text(k.label.toUpperCase(), bx + 4, by + 4);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(...dark);
+        doc.text(k.value, bx + 4, by + 8.5);
+      });
+      y += Math.ceil(kpis.length / 2) * 12 + 6;
+    }
+
+    // ── Section: Parcel Statistics ──
+    if (exportChecks.stats) {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...accent);
+      doc.text('PARCEL STATISTICS BY TYPE', ML, y);
+      y += 5;
+
+      const relevant2 = typeFilter === 'all' ? TYPE_META : TYPE_META.filter(t => t.key === typeFilter);
+      const totals2 = relevant2.map(t => d[t.key].reduce((s, v) => s + v, 0));
+      const grand2 = totals2.reduce((s, v) => s + v, 0) || 1;
+
+      // table header
+      const cols = ['Type', 'Total', 'Share', 'Avg Fee (THB)', 'Est. Revenue (THB)'];
+      const cw = [(PW - ML - MR) * 0.28, 0.14, 0.12, 0.22, 0.24].map(r => (PW - ML - MR) * r);
+      doc.setFillColor(...accent);
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7.5);
+      let cx = ML;
+      cols.forEach((c, ci) => { doc.text(c, cx + 3, y + 4.5); cx += cw[ci]; });
+      doc.rect(ML, y, PW - ML - MR, 7, 'F');
+      // re-draw text on top of fill
+      cx = ML;
+      cols.forEach((c, ci) => { doc.text(c, cx + 3, y + 4.5); cx += cw[ci]; });
+      y += 7;
+
+      relevant2.forEach((t, i) => {
+        const cnt = totals2[i];
+        const pct = Math.round((cnt / grand2) * 100);
+        const fee = AVG_FEE[t.key] || 0;
+        const est = cnt * fee;
+        doc.setFillColor(i % 2 === 0 ? 255 : 250, i % 2 === 0 ? 248 : 245, i % 2 === 0 ? 248 : 245);
+        doc.rect(ML, y, PW - ML - MR, 7, 'F');
+        doc.setTextColor(...dark);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        const vals = [t.label.replace(/[^\w\s]/g, '').trim(), cnt.toString(), `${pct}%`, `${fee}`, `${est.toLocaleString()}`];
+        cx = ML;
+        vals.forEach((v, vi) => { doc.text(v, cx + 3, y + 4.5); cx += cw[vi]; });
+        y += 7;
+      });
+      y += 6;
+    }
+
+    // ── Section: Revenue ──
+    if (exportChecks.revenue) {
+      if (y > PH - 60) { doc.addPage(); y = MT; }
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...accent);
+      doc.text('REVENUE BREAKDOWN', ML, y);
+      y += 5;
+
+      const rCols = ['Period Label', 'Parcels', 'Letters', 'Express', 'Registered', 'Revenue (THB)'];
+      const rCw = [0.22, 0.13, 0.13, 0.13, 0.15, 0.24].map(r => (PW - ML - MR) * r);
+      doc.setFillColor(...accent);
+      doc.rect(ML, y, PW - ML - MR, 7, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7.5);
+      let rcx = ML;
+      rCols.forEach((c, ci) => { doc.text(c, rcx + 2, y + 4.5); rcx += rCw[ci]; });
+      y += 7;
+
+      d.labels.forEach((lbl, i) => {
+        if (y > PH - 20) { doc.addPage(); y = MT; }
+        doc.setFillColor(i % 2 === 0 ? 255 : 250, i % 2 === 0 ? 248 : 245, i % 2 === 0 ? 248 : 245);
+        doc.rect(ML, y, PW - ML - MR, 7, 'F');
+        doc.setTextColor(...dark);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        const row = [lbl, d.parcels[i], d.letters[i], d.express[i], d.registered[i], d.revenue[i].toLocaleString()];
+        rcx = ML;
+        row.forEach((v, vi) => { doc.text(String(v), rcx + 2, y + 4.5); rcx += rCw[vi]; });
+        y += 7;
+      });
+
+      // totals row
+      doc.setFillColor(...accent);
+      doc.rect(ML, y, PW - ML - MR, 7, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('TOTAL', ML + 2, y + 4.5);
+      rcx = ML + rCw[0];
+      ['parcels','letters','express','registered'].forEach((k, ki) => {
+        doc.text(String(d[k].reduce((s, v) => s + v, 0)), rcx + 2, y + 4.5);
+        rcx += rCw[ki + 1];
+      });
+      doc.text(`THB ${d.revenue_total.toLocaleString()}`, rcx + 2, y + 4.5);
+      y += 12;
+    }
+
+    // ── Section: Top Routes ──
+    if (exportChecks.routes) {
+      if (y > PH - 60) { doc.addPage(); y = MT; }
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...accent);
+      doc.text('TOP ROUTES', ML, y);
+      y += 5;
+
+      TOP_ROUTES.forEach((r, i) => {
+        if (y > PH - 20) { doc.addPage(); y = MT; }
+        doc.setFillColor(i % 2 === 0 ? 255 : 250, i % 2 === 0 ? 248 : 245, i % 2 === 0 ? 248 : 245);
+        doc.rect(ML, y, PW - ML - MR, 9, 'F');
+        // rank badge
+        doc.setFillColor(...accent);
+        doc.roundedRect(ML + 2, y + 1.5, 6, 6, 1, 1, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7);
+        doc.text(String(i + 1), ML + 5, y + 5.8, { align: 'center' });
+        doc.setTextColor(...dark);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8.5);
+        doc.text(r.name, ML + 11, y + 4.5);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(...muted);
+        doc.text(r.sub, ML + 11, y + 7.5);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(...accent);
+        doc.text(String(r.count), PW - MR - 2, y + 5.5, { align: 'right' });
+        y += 9;
+      });
+      y += 6;
+    }
+
+    // ── Section: Period Summary ──
+    if (exportChecks.summary) {
+      if (y > PH - 50) { doc.addPage(); y = MT; }
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(...accent);
+      doc.text('PERIOD SUMMARY', ML, y);
+      y += 5;
+
+      const summaryItems = [
+        ['Report Period',    d.periodLabel],
+        ['Chart Scope',      d.chartSub],
+        ['Delivery Rate',    d.rate],
+        ['Return Rate',      d.ret],
+        ['Peak Day / Time',  d.peakDay],
+        ['Revenue Collected', d.collected],
+        ['Avg Fee per Item', `THB ${d.avg}`],
+      ];
+      summaryItems.forEach(([label, value], i) => {
+        doc.setFillColor(i % 2 === 0 ? 255 : 250, i % 2 === 0 ? 248 : 245, i % 2 === 0 ? 248 : 245);
+        doc.rect(ML, y, PW - ML - MR, 7, 'F');
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7.5);
+        doc.setTextColor(...muted);
+        doc.text(label, ML + 3, y + 4.5);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...dark);
+        doc.text(value, PW - MR - 3, y + 4.5, { align: 'right' });
+        y += 7;
+      });
+    }
+
+    // ── Footer on every page ──
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let p = 1; p <= totalPages; p++) {
+      doc.setPage(p);
+      doc.setFillColor(...light);
+      doc.rect(0, PH - 10, PW, 10, 'F');
+      doc.setDrawColor(...accent);
+      doc.setLineWidth(0.3);
+      doc.line(0, PH - 10, PW, PH - 10);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.setTextColor(...muted);
+      doc.text('Post Office Management System — Confidential', ML, PH - 4);
+      doc.text(`Page ${p} of ${totalPages}`, PW - MR, PH - 4, { align: 'right' });
+    }
+
+    const filename = `PostOffice_Report_${d.periodLabel.replace(/\s+/g, '_')}.pdf`;
+    doc.save(filename);
+    return filename;
+  }, [d, typeFilter, exportChecks, loadJsPDF]);
+
   const runExport = useCallback(async () => {
     closeExportModal();
     if (exportType === 'csv') {
@@ -466,15 +742,26 @@ export default function AdminReportsPage() {
       setProgress(p => ({ ...p, show: false }));
       showToast('CSV downloaded: PostOffice_Report_' + d.periodLabel.replace(/\s+/g, '_') + '.csv');
     } else {
-      setProgress({ show: true, title: 'Generating PDF...', step: 'Starting...', pct: 0 });
-      // jsPDF would be loaded via CDN — placeholder flow
-      await new Promise(r => setTimeout(r, 400));
-      setProgress(p => ({ ...p, pct: 100, step: 'Done!' }));
-      await new Promise(r => setTimeout(r, 300));
-      setProgress(p => ({ ...p, show: false }));
-      showToast('PDF downloaded successfully');
+      setProgress({ show: true, title: 'Generating PDF...', step: 'Loading PDF engine...', pct: 10 });
+      try {
+        await new Promise(r => setTimeout(r, 200));
+        setProgress(p => ({ ...p, step: 'Building report sections...', pct: 35 }));
+        await new Promise(r => setTimeout(r, 200));
+        setProgress(p => ({ ...p, step: 'Rendering tables...', pct: 65 }));
+        await new Promise(r => setTimeout(r, 200));
+        setProgress(p => ({ ...p, step: 'Saving file...', pct: 85 }));
+        const filename = await exportPDF();
+        setProgress(p => ({ ...p, pct: 100, step: 'Done!' }));
+        await new Promise(r => setTimeout(r, 400));
+        setProgress(p => ({ ...p, show: false }));
+        showToast('PDF downloaded: ' + filename);
+      } catch (err) {
+        setProgress(p => ({ ...p, show: false }));
+        showToast('PDF export failed. Please try again.');
+        console.error('PDF export error:', err);
+      }
     }
-  }, [exportType, exportCSV, d.periodLabel, showToast]);
+  }, [exportType, exportCSV, exportPDF, d.periodLabel, showToast]);
 
   const relevant = typeFilter === 'all' ? TYPE_META : TYPE_META.filter(t => t.key === typeFilter);
 
