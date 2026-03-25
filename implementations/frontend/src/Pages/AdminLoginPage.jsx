@@ -315,27 +315,18 @@ export default function AdminLoginPage() {
     clearErrors();
   };
 
-  // ── Step 1: Login submit ──
-  const handleAdminLogin = useCallback(() => {
-    clearErrors();
-    const newErrors = { uid: !uid.trim(), pw: !pw.trim() };
-    setErrors(newErrors);
-    if (newErrors.uid || newErrors.pw) return;
+const handleAdminLogin = useCallback(() => {
+  clearErrors();
+  const newErrors = { uid: !uid.trim(), pw: !pw.trim() };
+  setErrors(newErrors);
+  if (newErrors.uid || newErrors.pw) return;
 
-    setLoginLoading(true);
-    setTimeout(() => {
-      setLoginLoading(false);
-      loginAttempts.current += 1;
-
-      if (loginAttempts.current === 1 && pw !== 'admin123' && uid !== 'admin') {
-        setAlert(`Invalid credentials. ${2 - loginAttempts.current} attempt remaining before lockout.`);
-        setErrors(e => ({ ...e, pw: true }));
-        return;
-      }
-
-      setStep(STEP_2FA);
-    }, 1400);
-  }, [uid, pw]);
+  setLoginLoading(true);
+  setTimeout(() => {
+    setLoginLoading(false);
+    setStep(STEP_2FA);
+  }, 1400);
+}, [uid, pw]);
 
   // ── Step 2: OTP verify — navigates to AdminDashboardPage on success ──
   const verifyOtp = useCallback(() => {
