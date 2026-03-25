@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:3000/api";
 
@@ -147,6 +148,7 @@ function Timeline({ data, cfg }) {
 //  MAIN COMPONENT
 // ════════════════════════════════════════════════
 export default function TrackingPage() {
+  const navigate = useNavigate();
   const [input,      setInput]      = useState("");
   const [loading,    setLoading]    = useState(false);
   const [result,     setResult]     = useState(null);   // null | object
@@ -224,12 +226,12 @@ export default function TrackingPage() {
 
         {/* Topbar */}
         <div className="topbar">
-          <a href="/" className="back-btn">
+          <button onClick={() => navigate("/dashboard")} className="back-btn">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
             </svg>
             Back
-          </a>
+          </button>
           <div className="page-title">
             <h1>🔍 Track Shipment</h1>
             <p>Real-time parcel tracking</p>
