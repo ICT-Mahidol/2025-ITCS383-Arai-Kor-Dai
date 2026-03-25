@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL       = process.env.REACT_APP_API_URL || "http://localhost:3000/api";
 const USER_ID       = 1; // replace with real session user ID
@@ -59,6 +60,8 @@ function Pagination({ page, totalPages, total, perPage, onChange }) {
 //  MAIN COMPONENT
 // ════════════════════════════════════════════════
 export default function HistoryPage() {
+  const navigate = useNavigate();
+
   const [allData,  setAllData]  = useState([]);
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState("");
@@ -120,6 +123,46 @@ export default function HistoryPage() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / ROWS_PER_PAGE));
   const pageData   = filtered.slice((page - 1) * ROWS_PER_PAGE, page * ROWS_PER_PAGE);
 
+  // ── Export PDF (loads jsPDF from CDN dynamically — no npm install needed) ──
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) return resolve();
+      const s = document.createElement("script");
+      s.src = src; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  async function exportPDF() {
+    await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+    await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js");
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+
+    doc.setFontSize(16);
+    doc.setTextColor(230, 0, 18);
+    doc.text("Transaction History", 40, 40);
+
+    doc.setFontSize(9);
+    doc.setTextColor(120, 80, 80);
+    doc.text(`Exported: ${new Date().toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" })}   |   Total records: ${filtered.length}`, 40, 58);
+
+    doc.autoTable({
+      startY: 72,
+      head: [["Tracking ID", "Sender", "Receiver", "Type", "Date", "Status", "Fee"]],
+      body: filtered.map(r => [r.id, `${r.sender}\n${r.sAddr}`, `${r.receiver}\n${r.rAddr}`, r.type, r.date, r.status, r.fee]),
+      headStyles: { fillColor: [230, 0, 18], textColor: 255, fontSize: 8, fontStyle: "bold" },
+      bodyStyles: { fontSize: 8, textColor: [26, 26, 46] },
+      alternateRowStyles: { fillColor: [255, 245, 245] },
+      columnStyles: { 0: { fontStyle: "bold", textColor: [230, 0, 18] } },
+      styles: { cellPadding: 5, overflow: "linebreak" },
+      margin: { left: 40, right: 40 },
+    });
+
+    doc.save("transaction-history.pdf");
+  }
+
   return (
     <>
       <style>{CSS}</style>
@@ -130,12 +173,12 @@ export default function HistoryPage() {
 
         {/* Header */}
         <div className="page-header">
-          <a href="/" className="back-btn">
+          <button onClick={() => navigate("/dashboard")} className="back-btn">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
             </svg>
             Back
-          </a>
+          </button>
           <div className="page-title-group">
             <h1>📮 Transaction History</h1>
             <p>Post Office — All parcel &amp; mail records</p>
@@ -170,7 +213,7 @@ export default function HistoryPage() {
               <option>Parcel</option><option>Letter</option>
               <option>Express</option><option>Registered</option>
             </select>
-            <button className="export-btn">
+            <button className="export-btn" onClick={exportPDF}>
               <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v9m-4-4 4 4 4-4M12 3v9"/>
               </svg>
