@@ -488,7 +488,7 @@ export default function AdminSettingPage() {
   };
 
   return (
-    <>
+    <div className="page-wrapper">
       <style>{CSS}</style>
 
       {/* ════ SIDEBAR ════ */}
@@ -599,7 +599,7 @@ export default function AdminSettingPage() {
       </div>
 
       <Toast toast={toastState} />
-    </>
+    </div>
   );
 }
 
@@ -610,7 +610,10 @@ const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--accent:#c0392b;--accent-dark:#991b1b;--accent-light:#e07070;--accent-glow:rgba(192,57,43,0.25);--bg:#f7f1f1;--sidebar-bg:#1a0505;--sidebar-border:#2e0a0a;--card:#ffffff;--text:#1a0a0a;--muted:#7c5555;--input-bg:#fff8f8;--input-border:#f5cece;--border:#f0dada;--green:#16a34a;--green-bg:#f0fdf4;--blue:#1d4ed8;--blue-bg:#eff6ff;--amber:#d97706;--amber-bg:#fffbeb;--gold:#f59e0b;}
-body{min-height:100vh;background:var(--bg);font-family:'DM Sans',sans-serif;display:flex;overflow-x:hidden;}
+html,body{height:100%;}
+body{min-height:100vh;background:var(--bg);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+#root{display:flex;min-height:100vh;width:100%;}
+.page-wrapper{display:flex;min-height:100vh;width:100%;background:var(--bg);flex:1;}
 .sidebar{width:240px;min-height:100vh;background:var(--sidebar-bg);border-right:1px solid var(--sidebar-border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform 0.3s;}
 .sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid var(--sidebar-border);display:flex;align-items:center;gap:10px;}
 .sidebar-logo .logo-icon{width:40px;height:40px;background:linear-gradient(135deg,rgba(192,57,43,0.4),rgba(224,112,112,0.2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid rgba(192,57,43,0.35);box-shadow:0 0 16px rgba(192,57,43,0.2);}
